@@ -1,14 +1,18 @@
 
-reRPC
-=====
+reRPC [WIP]
+===========
 
 `reRPC` is an opinionated take on RPC system intended for usage from frontal apps with dedicated client library, HTTP request or Socket.IO.
 
 ## Goals
 
 - `Promise`-based
-- to consume using `async/await`
-- makes use of `Proxy`
+- consume with `async/await`
+- simplify invocation interface with ES2015 `Proxy`
+- keep it simple:
+  - no middleware
+  - do not handle authentication
+  - delegate customisation code to connection handler (Express and/or Socket.IO)
 
 ## Code Sample
 
@@ -21,24 +25,24 @@ const rerpc = require('rerpc')({
 });
 
 async function hello({name}) {
-  // this.soc?
-  // this.req?
+  // maybe use this.soc here
+  // maube use this.req here
   return `Hello ${name}!`;
 }
 
 // register
 rerpc.register('hello', hello);
 
-// multiple
+// register multiple functions
 rerpc.register({
   hello,
 });
 
 // attach to HTTP server
-rerpc.attach(http);
+rerpc.attach(http); // attaches to /rerpc
 
 // attach to Socket.IO instance
-rerpc.attach(soc);
+rerpc.attach(soc); // attaches to /rerpc
 
 ```
 
@@ -61,28 +65,22 @@ const rerpc = require('rerpc-client')('http://localhost:5000');
 })();
 ```
 
-### Client using HTTP request
+### Client using HTTP request via `fetch`
 
 ```javascript
 
 (async () => {
 
-  let result;
-
-  let Payload = (payload) => ({
+  let RPCPayload = (payload) => ({
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   });
-  
-  const response = await fetch('http://localhost:5000/rerpc/hello', Payload({name: 'World'}));
-  result = await response.json();
-  console.log(result); // => "Hello World!"
 
-  const response = await fetch('http://localhost:5000/rerpc/?fn=hello', Payload({name: 'World'}));
-  result = await response.json();
+  const response = await fetch('http://localhost:5000/rerpc?fn=hello', RPCPayload({name: 'World'}));
+  let result = await response.json();
   console.log(result); // => "Hello World!"
 
 })();
@@ -92,13 +90,28 @@ const rerpc = require('rerpc-client')('http://localhost:5000');
 
 ### Client using Socket.IO
 
+Two possibilities:
+
+#### Connect to attached Socket.IO:
+
 ```javascript
 
-const socket = require('socket.io-client')('http://localhost:5000/rerpc');
+const socket = require('socket.io-client')('http://localhost:5000/');
 
-socket.emit('fn.hello', {name: 'World'}, function (err, result) {
+socket.emit('rerpc', 'hello', {name: 'World'}, function (err, result) {
     console.log(result); // => "Hello World!"
 });
   
 ```
 
+#### Connect to dedicated Socket.IO instance:
+
+```javascript
+
+const socket = require('socket.io-client')('http://localhost:5000/rerpc');
+
+socket.emit('hello', {name: 'World'}, function (err, result) {
+    console.log(result); // => "Hello World!"
+});
+  
+```

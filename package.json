@@ -1,0 +1,20 @@
+{
+  "name": "rerpc",
+  "version": "0.0.0",
+  "description": "an opinionated take on RPC system intended for usage from frontal apps with dedicated client library, HTTP request or Socket.IO",
+  "keywords": ["RPC", "HTTP", "fetch", "Socket.IO"],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naderio/rerpc.git"
+  },
+  "author": "Nader Toukabri <ping@nader.tech>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/naderio/rerpc/issues"
+  },
+  "homepage": "https://github.com/naderio/rerpc#readme"
+}
