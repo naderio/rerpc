@@ -1,8 +1,13 @@
 {
   "name": "rerpc",
-  "version": "0.0.0",
-  "description": "an opinionated take on RPC system intended for usage from frontal apps with dedicated client library, HTTP request or Socket.IO",
-  "keywords": ["RPC", "HTTP", "fetch", "Socket.IO"],
+  "version": "0.0.1",
+  "description": "an opinionated take on RPC system intended for usage from frontal apps with dedicated client library, HTTP request or Socket.IO [WIP]",
+  "keywords": [
+    "RPC",
+    "HTTP",
+    "fetch",
+    "Socket.IO"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,5 +21,16 @@
   "bugs": {
     "url": "https://github.com/naderio/rerpc/issues"
   },
-  "homepage": "https://github.com/naderio/rerpc#readme"
+  "homepage": "https://github.com/naderio/rerpc#readme",
+  "dependencies": {
+    "debug": "^3.1.0"
+  },
+  "peerDependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
+  },
+  "debDependencies": {
+    "node-fetch": "^1.7.3"
+  }
 }
