@@ -2,13 +2,36 @@
 reRPC [WIP]
 ===========
 
-`reRPC` is an opinionated take on RPC system intended for usage from frontal apps with dedicated client library, HTTP request or Socket.IO.
-
-`reRPC` enable you to define an async Node.js function and to call it remotely as if you never left the server. 
+`reRPC` is an opinionated take on RPC system intended for usage from frontal apps in a multitude of ways.
 
 ## Status
 
 Active development.
+
+![Status](https://img.shields.io/badge/status-active%20development-yellow.svg)
+[![npm](https://img.shields.io/npm/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
+[![dependency Status](https://img.shields.io/david/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
+[![devDependency Status](https://img.shields.io/david/dev/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
+[![devDependency Status](https://img.shields.io/david/peer/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
+[![Build Status](https://img.shields.io/travis/naderio/rerpc.svg?maxAge=1000)](https://travis-ci.org/naderio/rerpc)
+[![Coveralls](https://img.shields.io/coveralls/naderio/rerpc.svg?maxAge=1000)](https://coveralls.io/github/naderio/rerpc)
+[![Code Climate](https://img.shields.io/codeclimate/github/naderio/rerpc.svg?maxAge=1000)](https://codeclimate.com/github/naderio/rerpc)
+[![npm](https://img.shields.io/npm/dt/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
+[![npm](https://img.shields.io/npm/l/rerpc.svg?maxAge=1000)](https://github.com/naderio/rerpc/blob/master/LICENSE.md)
+[![node](https://img.shields.io/node/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
+
+## Description
+
+`reRPC` enable you to do the following:
+- define an async Node.js function (`lib.doSomething = async (payload) => { ... }`)
+- call the defined function from client by mean of:
+  - Client library  (`result = await lib.doSomething(payload)`)
+  - HTTP request (`POST /rerpc?fn=doSomething` with JSON body)
+  - Socket.IO event (`socketio.emit('rerpc', 'doSomething', payload, (err, result) => { ... }`)
+
+`reRPC` exposes defined functions by attaching itself to:
+- `/rerpc` route on an [Express](https://expressjs.com/) app oor route instance  
+- `rerpc` event on a [Socket.IO](https://socket.io/) instance
 
 ## Goals
 
@@ -20,9 +43,13 @@ Active development.
   - no middleware, authentication, ...
   - delegate customisation code to transport (Express and/or Socket.IO)
 
-## Code Sample
+## Requirements
 
-### Server:
+- Node v8+
+
+## Code Samples
+
+### Server
 
 ```javascript
 
@@ -37,14 +64,16 @@ async function hello({ name }) {
 // register function
 rerpc.register({ hello });
 
-// attach to Express app our route
+// attach to Express app our route, creates '/rerpc' route
 rerpc.attachToExpress(app);
 
-// attach to Socket.IO instance
+// attach to Socket.IO instance, creates 'rerpc' event
 socketio.on('connect', soc => rerpc.attachToSocketIO(soc));
 ```
 
-### Client using library
+### Client
+
+#### Using dedicated library
 
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');
@@ -56,7 +85,13 @@ const rerpc = require('../lib/client')({ socketio });
 })();
 ```
 
-### Client using HTTP request via `fetch`
+#### Using `CURL`
+
+```bash
+curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: application/json' -d '{"name": "World"}' # => "Hello World!"
+```
+
+#### Using HTTP request via `fetch`
 
 ```javascript
 (async () => {
@@ -72,8 +107,7 @@ const rerpc = require('../lib/client')({ socketio });
 })();
 ```
 
-
-### Client using Socket.IO
+#### Using Socket.IO
 
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');

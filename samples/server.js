@@ -24,9 +24,9 @@ async function hello(payload) {
 // register function
 rerpc.register({ hello });
 
-// attach to Express app our route
+// attach to Express app our route, creates '/rerpc' route
 rerpc.attachToExpress(app);
 
-// attach to Socket.IO instance
+// attach to Socket.IO instance, creates 'rerpc' event
 socketio.on('connect', soc => rerpc.attachToSocketIO(soc));
 
