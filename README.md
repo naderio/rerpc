@@ -6,8 +6,6 @@ reRPC [WIP]
 
 ## Status
 
-Active development.
-
 ![Status](https://img.shields.io/badge/status-active%20development-yellow.svg)
 [![npm](https://img.shields.io/npm/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
 [![dependency Status](https://img.shields.io/david/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
@@ -19,6 +17,8 @@ Active development.
 [![npm](https://img.shields.io/npm/dt/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
 [![npm](https://img.shields.io/npm/l/rerpc.svg?maxAge=1000)](https://github.com/naderio/rerpc/blob/master/LICENSE.md)
 [![node](https://img.shields.io/node/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
+
+This is in active development. Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more information.
 
 ## Description
 
@@ -42,6 +42,10 @@ Active development.
   - do not create and manage transport connection, even in frontend
   - no middleware, authentication, ...
   - delegate customisation code to transport (Express and/or Socket.IO)
+- stay flexible:
+  - enable function to access transport layer
+  - enable function context augmentation
+  - enable custom error handling
 
 ## Requirements
 

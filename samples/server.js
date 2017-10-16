@@ -17,7 +17,7 @@ const rerpc = require('../lib/server')({
 
 // define function
 async function hello(payload) {
-  console.info('hello', this, payload);
+  console.log('hello', Object.keys(this), payload);
   return `Hello ${payload.name}!`;
 }
 
