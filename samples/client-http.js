@@ -9,5 +9,5 @@ const fetch = require('node-fetch');
 
   const response = await fetch('http://localhost:5000/rerpc?fn=hello', RPCPayload({ name: 'World' }));
   const result = await response.json();
-  console.log(result); // => "Hello World!"
+  console.log(result); // => { "$result": "Hello World!" }
 })().catch(console.error);

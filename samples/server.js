@@ -1,12 +1,9 @@
 const express = require('express');
 
 const app = express();
-
 app.use(express.json());
-
 const http = require('http').Server(app);
-
-const socketio = require('socket.io')(http);
+app.io = require('socket.io')(http);
 
 http.listen(5000);
 
@@ -28,5 +25,5 @@ rerpc.register({ hello });
 rerpc.attachToExpress(app);
 
 // attach to Socket.IO instance, creates 'rerpc' event
-socketio.on('connect', soc => rerpc.attachToSocketIO(soc));
+app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 

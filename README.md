@@ -12,8 +12,6 @@ reRPC [WIP]
 [![devDependency Status](https://img.shields.io/david/dev/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
 [![devDependency Status](https://img.shields.io/david/peer/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
 [![Build Status](https://img.shields.io/travis/naderio/rerpc.svg?maxAge=1000)](https://travis-ci.org/naderio/rerpc)
-[![Coveralls](https://img.shields.io/coveralls/naderio/rerpc.svg?maxAge=1000)](https://coveralls.io/github/naderio/rerpc)
-[![Code Climate](https://img.shields.io/codeclimate/github/naderio/rerpc.svg?maxAge=1000)](https://codeclimate.com/github/naderio/rerpc)
 [![npm](https://img.shields.io/npm/dt/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
 [![npm](https://img.shields.io/npm/l/rerpc.svg?maxAge=1000)](https://github.com/naderio/rerpc/blob/master/LICENSE.md)
 [![node](https://img.shields.io/node/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
@@ -27,7 +25,7 @@ This is in active development. Please refer to [roadmap](https://github.com/nade
 - call the defined function from client by mean of:
   - Client library  (`result = await lib.doSomething(payload)`)
   - HTTP request (`POST /rerpc?fn=doSomething` with JSON body)
-  - Socket.IO event (`socketio.emit('rerpc', 'doSomething', payload, (err, result) => { ... }`)
+  - Socket.IO event (`socketio.emit('rerpc', 'doSomething', payload, (result) => { ... }`)
 
 `reRPC` exposes defined functions by attaching itself to:
 - `/rerpc` route on an [Express](https://expressjs.com/) app oor route instance  
@@ -85,14 +83,14 @@ const rerpc = require('../lib/client')({ socketio });
 
 (async () => {
   const result = await rerpc.fn.hello({ name: 'World' });
-  console.log(result); // => "Hello World!"
+  console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 })();
 ```
 
 #### Using `CURL`
 
 ```bash
-curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: application/json' -d '{"name": "World"}' # => "Hello World!"
+curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
 ```
 
 #### Using HTTP request via `fetch`
@@ -107,7 +105,7 @@ curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: applicatio
 
   const response = await fetch('http://localhost:5000/rerpc?fn=hello', RPCPayload({ name: 'World' }));
   const result = await response.json();
-  console.log(result); // => "Hello World!"
+  console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 })();
 ```
 
@@ -116,7 +114,7 @@ curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: applicatio
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');
 
-socketio.emit('rerpc', 'hello', { name: 'World' }, (err, result) => {
-  console.log(result); // => "Hello World!"
+socketio.emit('rerpc', 'hello', { name: 'World' }, (result => {
+  console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 });
 ```
