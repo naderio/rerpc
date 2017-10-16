@@ -64,10 +64,10 @@ const rerpc = require('rerpc/client')('http://localhost:5000');
 (async () => {
   let result;
 
-  result = await rerpc.invoke('hello', { name: 'World', });
+  result = await rerpc.invoke('hello', { name: 'World' });
   console.log(result); // => "Hello World!"
 
-  result = await rerpc.fn.hello({ name: 'World', }); // ES2015 Proxy to the rescue
+  result = await rerpc.fn.hello({ name: 'World' }); // ES2015 Proxy to the rescue
   console.log(result); // => "Hello World!"
 })();
 ```
@@ -78,15 +78,11 @@ const rerpc = require('rerpc/client')('http://localhost:5000');
 (async () => {
   const RPCPayload = payload => ({
     method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
 
-  const response = await fetch('http://localhost:5000/rerpc?fn=hello', RPCPayload({
-    name: 'World',
-  }));
+  const response = await fetch('http://localhost:5000/rerpc?fn=hello', RPCPayload({ name: 'World' }));
   const result = await response.json();
   console.log(result); // => "Hello World!"
 })();
@@ -98,9 +94,7 @@ const rerpc = require('rerpc/client')('http://localhost:5000');
 ```javascript
 const socket = require('socket.io-client')('http://localhost:5000/');
 
-socket.emit('rerpc', 'hello', {
-  name: 'World',
-}, (err, result) => {
+socket.emit('rerpc', 'hello', { name: 'World' }, (err, result) => {
   console.log(result); // => "Hello World!"
 });
 ```
