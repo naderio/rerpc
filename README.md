@@ -17,7 +17,9 @@ reRPC [WIP]
 [![npm](https://img.shields.io/npm/dt/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
 
 
-This is in active development. Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more information.
+This is in active development.
+
+Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more information.
 
 ## Description
 
@@ -29,7 +31,7 @@ This is in active development. Please refer to [roadmap](https://github.com/nade
   - Socket.IO event (`socketio.emit('rerpc', 'doSomething', payload, (result) => { ... }`)
 
 `reRPC` exposes defined functions by attaching itself to:
-- `/rerpc` route on an [Express](https://expressjs.com/) app oor route instance  
+- `/rerpc` route on an [Express](https://expressjs.com/) app or route instance  
 - `rerpc` event on a [Socket.IO](https://socket.io/) instance
 
 ## Goals
@@ -52,6 +54,8 @@ This is in active development. Please refer to [roadmap](https://github.com/nade
 - Node v8+
 
 ## Code Samples
+
+Please refer to [`samples` folder](./samples) for more examples.
 
 ### Server
 
@@ -87,11 +91,15 @@ app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');
-const rerpc = require('rerpc/client')({ transport: socketio });
+const rerpc = require('rerpc/client')();
 
 (async () => {
-  const result = await rerpc.fn.hello({ name: 'World' });
-  console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
+  try {
+    const result = await rerpc.fn.hello({ name: 'World' });
+    console.log(result); // => "Hello World!"
+  } catch(error) {
+    console.error(error);
+  }
 })();
 ```
 

@@ -1,3 +1,5 @@
+/* global fetch Headers */
+
 const express = require('express');
 
 const app = express();
@@ -63,7 +65,7 @@ test('should invoke function throwing an error', async (t) => {
 
   rerpc.register({
     hello: async () => {
-      const error = new Error('CustomError');
+      const error = new Error('You have a custom error!');
       error.code = 'CustomError';
       throw error;
     },
@@ -71,7 +73,7 @@ test('should invoke function throwing an error', async (t) => {
 
   let result;
 
-  const expectedResult = { $error: { code: 'CustomError', message: 'CustomError' } };
+  const expectedResult = { $error: { code: 'CustomError', message: 'You have a custom error!' } };
 
   const response = await fetch('http://localhost:5000/rerpc?fn=hello', ReRPCPayload({ name: 'World' }));
   t.equal(response.status, 400, 'http request should have status code 400');

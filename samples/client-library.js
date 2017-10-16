@@ -8,11 +8,19 @@ const rerpc = require('rerpc/client')({
 });
 
 (async () => {
-  const result = await rerpc.invoke('hello', { name: 'World' });
-  console.log(result); // => "Hello World!"
+  try {
+    const result = await rerpc.fn.hello({ name: 'World' });
+    console.log(result); // => "Hello World!"
+  } catch (error) {
+    console.error(error);
+  }
 
-  // const result = await rerpc.fn.hello({ name: 'World' });
-  // console.log(result); // => "Hello World!"
+  try {
+    const result = await rerpc.fn.helloAuthenticated({ name: 'World' });
+    console.log(result); // => "Hello World!"
+  } catch (error) {
+    console.error(error);
+  }
 
   socketio.disconnect();
-})().catch(console.error);
+})();
