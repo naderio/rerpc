@@ -1,6 +1,7 @@
-(async() => {
+const fetch = require('node-fetch');
 
-  let RPCPayload = (payload) => ({
+(async () => {
+  const RPCPayload = payload => ({
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
@@ -9,9 +10,8 @@
   });
 
   const response = await fetch('http://localhost:5000/rerpc?fn=hello', RPCPayload({
-    name: 'World'
+    name: 'World',
   }));
-  let result = await response.json();
+  const result = await response.json();
   console.log(result); // => "Hello World!"
-
-})();
+})().catch(console.error);

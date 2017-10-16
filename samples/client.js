@@ -1,17 +1,15 @@
 const rerpc = require('rerpc/client')('http://localhost:5000');
 
-(async() => {
-
+(async () => {
   let result;
 
   result = await rerpc.invoke('hello', {
-    name: 'World'
+    name: 'World',
   });
   console.log(result); // => "Hello World!"
 
   result = await rerpc.fn.hello({
-    name: 'World'
+    name: 'World',
   }); // ES2015 Proxy to the rescue
   console.log(result); // => "Hello World!"
-
-})();
+})().catch(console.error);
