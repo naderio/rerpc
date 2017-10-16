@@ -1,0 +1,6 @@
+{
+  "name": "samples",
+  "dependencies": {
+    "rerpc": "file:.."
+  }
+}

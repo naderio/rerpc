@@ -1,6 +1,6 @@
 {
   "name": "rerpc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "an opinionated take on RPC system intended for usage from frontal apps with dedicated client library, HTTP request or Socket.IO [WIP]",
   "keywords": [
     "RPC",
@@ -39,7 +39,7 @@
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.0.2",
     "eslint-plugin-import": "^2.7.0",
-    "node-fetch": "^1.7.3",
+    "isomorphic-fetch": "^2.2.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0"
   },

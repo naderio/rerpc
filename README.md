@@ -24,7 +24,7 @@ This is in active development. Please refer to [roadmap](https://github.com/nade
 `reRPC` enable you to do the following:
 - define an async Node.js function (`lib.doSomething = async (payload) => { ... }`)
 - call the defined function from client by mean of:
-  - Client library  (`result = await lib.doSomething(payload)`)
+  - client library (`result = await lib.doSomething(payload)`)
   - HTTP request (`POST /rerpc?fn=doSomething` with JSON body)
   - Socket.IO event (`socketio.emit('rerpc', 'doSomething', payload, (result) => { ... }`)
 
@@ -44,6 +44,7 @@ This is in active development. Please refer to [roadmap](https://github.com/nade
 - stay flexible:
   - enable function to access transport layer
   - enable function context augmentation
+  - enable custom payload processing
   - enable custom error handling
 
 ## Requirements
@@ -86,7 +87,7 @@ app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');
-const rerpc = require('../lib/client')({ transport: socketio });
+const rerpc = require('rerpc/client')({ transport: socketio });
 
 (async () => {
   const result = await rerpc.fn.hello({ name: 'World' });
@@ -104,13 +105,11 @@ curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: applicatio
 
 ```javascript
 (async () => {
-  const RPCPayload = payload => ({
+  const response = await fetch('http://localhost:5000/rerpc?fn=hello', {
     method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({ name: 'World' }),
   });
-
-  const response = await fetch('http://localhost:5000/rerpc?fn=hello', RPCPayload({ name: 'World' }));
   const result = await response.json();
   console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 })();

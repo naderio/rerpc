@@ -8,7 +8,7 @@ app.io = require('socket.io')(http);
 http.listen(5000);
 
 // initiate
-const rerpc = require('../lib/server')({ /* options here */ });
+const rerpc = require('rerpc')({ /* options here */ });
 
 // define function
 async function hello(payload) {
