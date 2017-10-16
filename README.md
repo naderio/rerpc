@@ -51,7 +51,10 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 
 ## Requirements
 
+`reRPC` makes use of a number of ES2015+ features, most notably `async/await` and `Proxy`. Therefore:
+
 - Node v8+
+- Transpiler for browser code
 
 ## Code Samples
 
