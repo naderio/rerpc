@@ -22,11 +22,9 @@ async function hello(payload) {
 }
 
 // register function
-rerpc.register({
-  hello,
-});
+rerpc.register({ hello });
 
-// attach to HTTP server
+// attach to Express app our route
 rerpc.attachToExpress(app);
 
 // attach to Socket.IO instance
