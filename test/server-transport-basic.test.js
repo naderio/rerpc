@@ -23,7 +23,7 @@ const RPCPayload = payload => ({
   body: JSON.stringify(payload),
 });
 
-test('should fail invoke missing function over HTTP', async (t) => {
+test('should fail to invoke missing function over HTTP', async (t) => {
   t.plan(2);
 
   const response = await fetch('http://localhost:5000/rerpc?fn=hello404', RPCPayload({ name: 'World' }));
@@ -32,7 +32,7 @@ test('should fail invoke missing function over HTTP', async (t) => {
   t.deepEqual(result, { $error: { message: 'FunctionNotFound' } }, 'should match error structure');
 });
 
-test('should fail invoke missing function over Socket.IO', async (t) => {
+test('should fail to invoke missing function over Socket.IO', async (t) => {
   t.plan(1);
 
   socketio.emit('rerpc', 'hello404', { name: 'World' }, (result) => {
@@ -60,6 +60,52 @@ test('should invoke function over Socket.IO', async (t) => {
 
   socketio.emit('rerpc', 'hello', { name: 'World' }, (result) => {
     t.deepEqual(result, { $result: 'Hello World!' }, 'should match result structure');
+  });
+});
+
+async function helloObject({ name }) {
+  return { message: `Hello ${name}!` };
+}
+
+rerpc.register({ helloObject });
+
+test('should invoke function returning object over HTTP', async (t) => {
+  t.plan(2);
+
+  const response = await fetch('http://localhost:5000/rerpc?fn=helloObject', RPCPayload({ name: 'World' }));
+  t.equal(response.status, 200, 'should have status code 200');
+  const result = await response.json();
+  t.deepEqual(result, { $result: { message: 'Hello World!' } }, 'should match result structure');
+});
+
+test('should invoke function returning object over Socket.IO', async (t) => {
+  t.plan(1);
+
+  socketio.emit('rerpc', 'helloObject', { name: 'World' }, (result) => {
+    t.deepEqual(result, { $result: { message: 'Hello World!' } }, 'should match result structure');
+  });
+});
+
+async function helloArray({ name }) {
+  return [`Hello ${name}!`];
+}
+
+rerpc.register({ helloArray });
+
+test('should invoke function returning object over HTTP', async (t) => {
+  t.plan(2);
+
+  const response = await fetch('http://localhost:5000/rerpc?fn=helloArray', RPCPayload({ name: 'World' }));
+  t.equal(response.status, 200, 'should have status code 200');
+  const result = await response.json();
+  t.deepEqual(result, { $result: ['Hello World!'] }, 'should match result structure');
+});
+
+test('should invoke function returning object over Socket.IO', async (t) => {
+  t.plan(1);
+
+  socketio.emit('rerpc', 'helloArray', { name: 'World' }, (result) => {
+    t.deepEqual(result, { $result: ['Hello World!'] }, 'should match result structure');
   });
 });
 

@@ -11,7 +11,7 @@ reRPC [WIP]
 [![dependency Status](https://img.shields.io/david/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
 [![devDependency Status](https://img.shields.io/david/dev/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
 [![devDependency Status](https://img.shields.io/david/peer/naderio/rerpc.svg?maxAge=1000)](https://david-dm.org/naderio/rerpc)
-[![Build Status](https://img.shields.io/travis/naderio/rerpc.svg?maxAge=1000)](https://travis-ci.org/naderio/rerpc)
+[![Build Status](https://travis-ci.org/naderio/rerpc.svg?branch=master)](https://travis-ci.org/naderio/rerpc)
 [![npm](https://img.shields.io/npm/dt/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
 [![npm](https://img.shields.io/npm/l/rerpc.svg?maxAge=1000)](https://github.com/naderio/rerpc/blob/master/LICENSE.md)
 [![node](https://img.shields.io/node/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
@@ -54,6 +54,12 @@ This is in active development. Please refer to [roadmap](https://github.com/nade
 ### Server
 
 ```javascript
+const express = require('express');
+const app = express();
+app.use(express.json());
+const http = require('http').Server(app);
+app.io = require('socket.io')(http);
+http.listen(5000);
 
 // initiate
 const rerpc = require('rerpc')({ /* options here */ });
@@ -70,7 +76,7 @@ rerpc.register({ hello });
 rerpc.attachToExpress(app);
 
 // attach to Socket.IO instance, creates 'rerpc' event
-socketio.on('connect', soc => rerpc.attachToSocketIO(soc));
+app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 ```
 
 ### Client
@@ -79,7 +85,7 @@ socketio.on('connect', soc => rerpc.attachToSocketIO(soc));
 
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');
-const rerpc = require('../lib/client')({ socketio });
+const rerpc = require('../lib/client')({ transport: socketio });
 
 (async () => {
   const result = await rerpc.fn.hello({ name: 'World' });

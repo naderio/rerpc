@@ -6,9 +6,10 @@
     "RPC",
     "HTTP",
     "fetch",
+    "Express",
     "Socket.IO"
   ],
-  "main": "index.js",
+  "main": "./lib/server/index.js",
   "scripts": {
     "format": "eslint --fix .",
     "test": "tape ./test/*.test.js | tap-spec"
