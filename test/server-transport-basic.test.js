@@ -83,20 +83,20 @@ test('should invoke function throwing an error', async (t) => {
   });
 
   try {
-    result = await rerpcOverHttp.invoke('hello', { name: 'World' });
+    result = await rerpcOverHttp.fn.hello({ name: 'World' });
   } catch (error) {
     t.deepEqual({ message: error.message, ...error }, expectedResult.$error, 'client library over http should match error structure');
   }
 
   try {
-    result = await rerpcOverSocketIO.invoke('hello', { name: 'World' });
+    result = await rerpcOverSocketIO.fn.hello({ name: 'World' });
   } catch (error) {
     t.deepEqual({ message: error.message, ...error }, expectedResult.$error, 'client library over socket.io should match error structure');
   }
 });
 
 test('should invoke function returning an object', async (t) => {
-  t.plan(5);
+  t.plan(7);
 
   rerpc.register({ hello: async ({ name }) => ({ message: `Hello ${name}!` }) });
 
@@ -118,6 +118,12 @@ test('should invoke function returning an object', async (t) => {
 
   result = await rerpcOverSocketIO.invoke('hello', { name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
+
+  result = await rerpcOverHttp.fn.hello({ name: 'World' });
+  t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
+
+  result = await rerpcOverSocketIO.fn.hello({ name: 'World' });
+  t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
 test('should invoke function returning an array', async (t) => {
@@ -138,10 +144,10 @@ test('should invoke function returning an array', async (t) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('hello', { name: 'World' });
+  result = await rerpcOverHttp.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('hello', { name: 'World' });
+  result = await rerpcOverSocketIO.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
@@ -163,10 +169,10 @@ test('should invoke function returning a string', async (t) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('hello', { name: 'World' });
+  result = await rerpcOverHttp.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('hello', { name: 'World' });
+  result = await rerpcOverSocketIO.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
@@ -188,10 +194,10 @@ test('should invoke function returning a number', async (t) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('hello', { name: 'World' });
+  result = await rerpcOverHttp.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('hello', { name: 'World' });
+  result = await rerpcOverSocketIO.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
@@ -213,10 +219,10 @@ test('should invoke function returning a boolean', async (t) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('hello', { name: 'World' });
+  result = await rerpcOverHttp.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('hello', { name: 'World' });
+  result = await rerpcOverSocketIO.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
@@ -240,10 +246,10 @@ test('should invoke function returning a date', async (t) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('hello', { name: 'World' });
+  result = await rerpcOverHttp.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('hello', { name: 'World' });
+  result = await rerpcOverSocketIO.fn.hello({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
