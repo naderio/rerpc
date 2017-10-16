@@ -174,7 +174,7 @@ async function helloDate() {
 
 rerpc.register({ helloDate });
 
-test('should invoke function returning a booelan over HTTP and Socket.IO', async (t) => {
+test('should invoke function returning a date over HTTP and Socket.IO', async (t) => {
   t.plan(3);
 
   const expectedResult = { $result: DATE.toJSON() };
