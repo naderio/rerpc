@@ -18,7 +18,10 @@ const test = require('tape');
 
 require('isomorphic-fetch');
 const socketio = require('socket.io-client')('http://localhost:5000/');
-const rerpcOverHttp = require('../lib/client')();
+const rerpcOverHttp = require('../lib/client')({
+  transport: 'http',
+  transportHandler: 'http://localhost:5000',
+});
 const rerpcOverSocketIO = require('../lib/client')({
   transport: 'socket.io',
   transportHandler: socketio,

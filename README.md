@@ -68,7 +68,7 @@ app.io = require('socket.io')(http);
 http.listen(5000);
 
 // initiate
-const rerpc = require('rerpc')({ /* options here */ });
+const rerpc = require('rerpc')();
 
 // define function
 async function hello({ name }) {
@@ -90,8 +90,22 @@ app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 #### Using dedicated library
 
 ```javascript
+
+const rerpc = require('rerpc/client')({
+  transport: 'http',
+  transportHandler: 'http://localhost:5000',
+});
+
+// or
+
 const socketio = require('socket.io-client')('http://localhost:5000/');
-const rerpc = require('rerpc/client')();
+
+const rerpc = require('rerpc/client')({
+  transport: 'socket.io',
+  transportHandler: socketio,
+});
+
+// then 
 
 (async () => {
   try {
