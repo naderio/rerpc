@@ -1,12 +1,12 @@
 
-reRPC [WIP]
-===========
+reRPC
+=====
 
 `reRPC` is an opinionated take on RPC system intended for usage from frontal apps in a multitude of ways.
 
 ## Status
 
-![Status](https://img.shields.io/badge/status-active%20development-yellow.svg)
+![Status](https://img.shields.io/badge/status-production--ready-green.svg)
 [![npm](https://img.shields.io/npm/l/rerpc.svg?maxAge=1000)](https://github.com/naderio/rerpc/blob/master/LICENSE.md)
 [![node](https://img.shields.io/node/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
 [![npm](https://img.shields.io/npm/v/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
@@ -17,7 +17,7 @@ reRPC [WIP]
 [![npm](https://img.shields.io/npm/dt/rerpc.svg?maxAge=1000)](https://www.npmjs.com/package/rerpc)
 
 
-This is in active development.
+This library is production-ready.
 
 Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more information.
 

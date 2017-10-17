@@ -1,7 +1,7 @@
 {
   "name": "rerpc",
-  "version": "0.9.2",
-  "description": "an opinionated take on RPC system intended for usage from frontal apps with dedicated client library, HTTP request or Socket.IO [WIP]",
+  "version": "0.9.3",
+  "description": "an opinionated take on RPC system intended for usage from frontal and server apps with dedicated client library, HTTP request or Socket.IO event",
   "keywords": [
     "RPC",
     "HTTP",
