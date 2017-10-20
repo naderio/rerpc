@@ -7,7 +7,7 @@ require('isomorphic-fetch');
     body: JSON.stringify(payload),
   });
 
-  const response = await fetch('http://localhost:5000/rerpc?fn=hello', ReRPCPayload({ name: 'World' }));
+  const response = await fetch('http://localhost:5000/rerpc/hello', ReRPCPayload({ name: 'World' }));
   const result = await response.json();
   console.log(result); // => { "$result": "Hello World!" }
 })().catch(console.error);

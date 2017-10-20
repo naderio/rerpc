@@ -27,7 +27,7 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 - define an async Node.js function (`lib.doSomething = async (payload) => { ... }`)
 - call the defined function from client by mean of:
   - client library (`result = await lib.doSomething(payload)`)
-  - HTTP request (`POST /rerpc?fn=doSomething` with JSON body)
+  - HTTP request (`POST /rerpc/doSomething` with JSON body)
   - Socket.IO event (`socketio.emit('rerpc', 'doSomething', payload, (result) => { ... }`)
 
 `reRPC` exposes defined functions by attaching itself to:
@@ -36,9 +36,8 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 
 ## Goals
 
-- `Promise`-based
-- make use of `async/await`
-- simplify invocation interface with ES2015 `Proxy`
+- enable writing a function once and eb able to call with library, HTTP and Socket.IO
+- simplify function invocation interface by mean of `async/await` and ES2015 `Proxy`
 - stay simple:
   - do not create and manage transport connection, even in frontend
   - no middleware, authentication, ...
@@ -123,14 +122,14 @@ const rerpc = require('rerpc/client')({
 #### Using `CURL`
 
 ```bash
-curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
+curl -X POST 'http://localhost:5000/rerpc/hello' -H 'content-type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
 ```
 
 #### Using `fetch`
 
 ```javascript
 (async () => {
-  const response = await fetch('http://localhost:5000/rerpc?fn=hello', {
+  const response = await fetch('http://localhost:5000/rerpc/hello', {
     method: 'post',
     headers: new Headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({ name: 'World' }),

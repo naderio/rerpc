@@ -1,6 +1,6 @@
 {
   "name": "rerpc",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "an opinionated take on RPC system intended for usage from frontal and server apps with dedicated client library, HTTP request or Socket.IO event",
   "keywords": [
     "RPC",
@@ -11,6 +11,7 @@
   ],
   "main": "./lib/server/index.js",
   "scripts": {
+    "dev": "nodemon samples/server.js",
     "format": "eslint --fix .",
     "test": "tape ./test/*.test.js | tap-spec"
   },
@@ -40,6 +41,7 @@
     "eslint-config-airbnb-base": "^12.0.2",
     "eslint-plugin-import": "^2.7.0",
     "isomorphic-fetch": "^2.2.1",
+    "nodemon": "^1.12.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0"
   },

@@ -55,7 +55,9 @@ async function helloAuthenticated(payload) {
 // register function
 rerpc.register({
   hello,
+  '/say/hello': hello,
   helloAuthenticated,
+  '/auth/hello': helloAuthenticated,
 });
 
 // attach to Express app our route, creates '/rerpc' route
