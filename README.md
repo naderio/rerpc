@@ -126,7 +126,7 @@ const rerpc = require('rerpc/client')({
 curl -X POST 'http://localhost:5000/rerpc?fn=hello' -H 'content-type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
 ```
 
-#### Using HTTP request via `fetch`
+#### Using `fetch`
 
 ```javascript
 (async () => {
