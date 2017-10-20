@@ -9,7 +9,9 @@ http.listen(5000);
 
 // initiate
 
-const rerpc = require('rerpc')({ /* options here */ });
+const rerpc = require('rerpc')({
+  // prefix: '/rpc',
+});
 
 // augment function execution context with useful abstraction
 
@@ -63,6 +65,6 @@ rerpc.register({
 // attach to Express app our route, creates '/rerpc' route
 rerpc.attachToExpress(app);
 
-// attach to Socket.IO instance, creates 'rerpc' event
+// attach to Socket.IO instance, creates '/rerpc' event
 app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 

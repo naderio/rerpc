@@ -2,7 +2,7 @@
 reRPC
 =====
 
-`reRPC` is an opinionated take on RPC system intended for usage from frontal apps in a multitude of ways.
+`reRPC` is a simplified and flexible RPC system with unified model for client-to-server and server-to-server communication on top of HTTP and/or Socket.IO
 
 ## Status
 
@@ -28,7 +28,7 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 - call the defined function from client by mean of:
   - client library (`result = await lib.doSomething(payload)`)
   - HTTP request (`POST /rerpc/doSomething` with JSON body)
-  - Socket.IO event (`socketio.emit('rerpc', 'doSomething', payload, (result) => { ... }`)
+  - Socket.IO event (`socketio.emit('/rerpc', 'doSomething', payload, (result) => { ... }`)
 
 `reRPC` exposes defined functions by attaching itself to:
 - `/rerpc` route on an [Express](https://expressjs.com/) app or route instance  
@@ -36,7 +36,7 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 
 ## Goals
 
-- enable writing a function once and eb able to call with library, HTTP and Socket.IO
+- enable writing a function once and call it with dedicated library, HTTP request and/or Socket.IO event
 - simplify function invocation interface by mean of `async/await` and ES2015 `Proxy`
 - stay simple:
   - do not create and manage transport connection, even in frontend
@@ -83,7 +83,7 @@ rerpc.register({ hello });
 // attach to Express app our route, creates '/rerpc' route
 rerpc.attachToExpress(app);
 
-// attach to Socket.IO instance, creates 'rerpc' event
+// attach to Socket.IO instance, creates '/rerpc' event
 app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 ```
 
@@ -144,7 +144,7 @@ curl -X POST 'http://localhost:5000/rerpc/hello' -H 'content-type: application/j
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');
 
-socketio.emit('rerpc', 'hello', { name: 'World' }, (result => {
+socketio.emit('/rerpc', 'hello', { name: 'World' }, (result => {
   console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 });
 ```

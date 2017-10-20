@@ -3,11 +3,13 @@ require('isomorphic-fetch');
 const socketio = require('socket.io-client')('http://localhost:5000/');
 
 // const rerpc = require('rerpc/client')({
+//   // prefix: '/rpc',
 //   transport: 'socket.io',
 //   transportHandler: socketio,
 // });
 
 const rerpc = require('rerpc/client')({
+  // prefix: '/rpc',
   transport: 'http',
   transportHandler: 'http://localhost:5000',
 });
