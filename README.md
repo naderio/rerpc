@@ -4,6 +4,8 @@ reRPC
 
 `reRPC` is a simplified and flexible RPC system with unified model for client-to-server and server-to-server communication on top of HTTP and/or Socket.IO
 
+Alternatively, `reRPC` provides an unified approach to define both a HTTP path and a Socket.IO event handlers as a single async function (`async (payload) => { ... ; return result; }`).
+
 ## Status
 
 ![Status](https://img.shields.io/badge/status-production--ready-green.svg)
@@ -24,15 +26,15 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 ## Description
 
 `reRPC` enable you to do the following:
-- define an async Node.js function (`lib.doSomething = async (payload) => { ... }`)
+- define an async Node.js function (`lib.doSomething = async (payload) => { ... ; return result; };`)
 - call the defined function from client by mean of:
-  - client library (`result = await lib.doSomething(payload)`)
-  - HTTP request (`POST /rerpc/doSomething` with JSON body)
-  - Socket.IO event (`socketio.emit('/rerpc', 'doSomething', payload, (result) => { ... }`)
+  - client library (`result = await lib.doSomething(payload);`)
+  - HTTP request (`POST /rerpc/doSomething` with payload as JSON in body)
+  - Socket.IO event (`socketio.emit('/rerpc', 'doSomething', payload, (result) => { ... });`)
 
 `reRPC` exposes defined functions by attaching itself to:
-- `/rerpc` route on an [Express](https://expressjs.com/) app or route instance  
-- `rerpc` event on a [Socket.IO](https://socket.io/) instance
+- `/rerpc` route on an [Express](https://expressjs.com/) app or route instance
+- `/rerpc` event on a [Socket.IO](https://socket.io/) instance
 
 ## Goals
 
@@ -70,15 +72,15 @@ app.io = require('socket.io')(http);
 http.listen(5000);
 
 // initiate
-const rerpc = require('rerpc')();
+const rerpc = require('rerpc')({});
 
 // define function
-async function hello({ name }) {
+async function greet({ name }) {
   return `Hello ${name}!`;
 }
 
 // register function
-rerpc.register({ hello });
+rerpc.register({ greet });
 
 // attach to Express app our route, creates '/rerpc' route
 rerpc.attachToExpress(app);
@@ -111,7 +113,7 @@ const rerpc = require('rerpc/client')({
 
 (async () => {
   try {
-    const result = await rerpc.fn.hello({ name: 'World' });
+    const result = await rerpc.fn.greet({ name: 'World' });
     console.log(result); // => "Hello World!"
   } catch(error) {
     console.error(error);
@@ -122,14 +124,14 @@ const rerpc = require('rerpc/client')({
 #### Using `CURL`
 
 ```bash
-curl -X POST 'http://localhost:5000/rerpc/hello' -H 'content-type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
+curl -X POST 'http://localhost:5000/rerpc/greet' -H 'content-type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
 ```
 
 #### Using `fetch`
 
 ```javascript
 (async () => {
-  const response = await fetch('http://localhost:5000/rerpc/hello', {
+  const response = await fetch('http://localhost:5000/rerpc/greet', {
     method: 'post',
     headers: new Headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({ name: 'World' }),
@@ -144,7 +146,7 @@ curl -X POST 'http://localhost:5000/rerpc/hello' -H 'content-type: application/j
 ```javascript
 const socketio = require('socket.io-client')('http://localhost:5000/');
 
-socketio.emit('/rerpc', 'hello', { name: 'World' }, (result => {
+socketio.emit('/rerpc', 'greet', { name: 'World' }, (result => {
   console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 });
 ```

@@ -25,14 +25,14 @@ const rerpc = require('rerpc/client')({
 
 (async () => {
   try {
-    const result = await rerpc.fn.hello({ name: 'World' });
+    const result = await rerpc.fn.greet({ name: 'World' });
     console.log(result); // => "Hello World!"
   } catch (error) {
     console.error(error);
   }
 
   try {
-    const result = await rerpc.fn.helloAuthenticated({ name: 'World' });
+    const result = await rerpc.fn.greetAuthenticated({ name: 'World' });
     console.log(result); // => "Hello World!"
   } catch (error) {
     console.error(error);

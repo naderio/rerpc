@@ -42,12 +42,12 @@ rerpc.processError = (error) => {
 };
 
 // define functions
-async function hello(payload) {
-  // console.log('hello', Object.keys(this), payload);
+async function greet(payload) {
+  // console.log('greet', Object.keys(this), payload);
   return `Hello ${payload.name}!`;
 }
 
-async function helloAuthenticated(payload) {
+async function greetAuthenticated(payload) {
   if (!this.isAuthenticated()) {
     throw new Error('Unauthenticated');
   }
@@ -56,10 +56,10 @@ async function helloAuthenticated(payload) {
 
 // register function
 rerpc.register({
-  hello,
-  '/greeting/hello': hello,
-  helloAuthenticated,
-  '/auth/hello': helloAuthenticated,
+  greet,
+  '/greeting/hello': greet,
+  greetAuthenticated,
+  '/auth/greet': greetAuthenticated,
 });
 
 // attach to Express app our route, creates '/rerpc' route
