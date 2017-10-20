@@ -55,7 +55,7 @@ async function helloAuthenticated(payload) {
 // register function
 rerpc.register({
   hello,
-  '/say/hello': hello,
+  '/greeting/hello': hello,
   helloAuthenticated,
   '/auth/hello': helloAuthenticated,
 });

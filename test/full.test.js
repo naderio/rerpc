@@ -251,7 +251,7 @@ test('should invoke function returning a date', async (t) => {
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
-test('should invoke function in case sensitive way', async (t) => {
+test('should invoke function in multiple ways', async (t) => {
   t.plan(7);
 
   rerpc.register({ sayHello: async ({ name }) => ({ message: `Hello ${name}!` }) });
@@ -269,13 +269,13 @@ test('should invoke function in case sensitive way', async (t) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('sayHello', { name: 'World' });
+  result = await rerpcOverHttp.invoke('/sayHello', { name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('sayHello', { name: 'World' });
+  result = await rerpcOverSocketIO.invoke('sayHello/', { name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 
-  result = await rerpcOverHttp.fn.sayHello({ name: 'World' });
+  result = await rerpcOverHttp.fn['/sayHello/']({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
   result = await rerpcOverSocketIO.fn.sayHello({ name: 'World' });
@@ -285,62 +285,62 @@ test('should invoke function in case sensitive way', async (t) => {
 test('should invoke function with path name', async (t) => {
   t.plan(7);
 
-  rerpc.register({ '/say/hello': async ({ name }) => ({ message: `Hello ${name}!` }) });
+  rerpc.register({ '/greeting/hello': async ({ name }) => ({ message: `Hello ${name}!` }) });
 
   let result;
 
   const expectedResult = { $result: { message: 'Hello World!' } };
 
-  const response = await fetch('http://localhost:5000/rerpc/say/hello', ReRPCPayload({ name: 'World' }));
+  const response = await fetch('http://localhost:5000/rerpc/greeting/hello', ReRPCPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
 
-  socketio.emit('rerpc', '/say/hello', { name: 'World' }, (result) => {
+  socketio.emit('rerpc', '/greeting/hello', { name: 'World' }, (result) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('/say/hello', { name: 'World' });
+  result = await rerpcOverHttp.invoke('/greeting/hello', { name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('/say/hello', { name: 'World' });
+  result = await rerpcOverSocketIO.invoke('/greeting/hello', { name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 
-  result = await rerpcOverHttp.fn['/say/hello']({ name: 'World' });
+  result = await rerpcOverHttp.fn['/greeting/hello']({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.fn['/say/hello']({ name: 'World' });
+  result = await rerpcOverSocketIO.fn['/greeting/hello']({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
 test('should invoke function with path name and trailing slash', async (t) => {
   t.plan(7);
 
-  rerpc.register({ '/say/hello': async ({ name }) => ({ message: `Hello ${name}!` }) });
+  rerpc.register({ '/greeting/hello': async ({ name }) => ({ message: `Hello ${name}!` }) });
 
   let result;
 
   const expectedResult = { $result: { message: 'Hello World!' } };
 
-  const response = await fetch('http://localhost:5000/rerpc/say/hello/', ReRPCPayload({ name: 'World' }));
+  const response = await fetch('http://localhost:5000/rerpc/greeting/hello/', ReRPCPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
 
-  socketio.emit('rerpc', '/say/hello/', { name: 'World' }, (result) => {
+  socketio.emit('rerpc', '/greeting/hello/', { name: 'World' }, (result) => {
     t.deepEqual(result, expectedResult, 'socket.io event should match result structure');
   });
 
-  result = await rerpcOverHttp.invoke('/say/hello/', { name: 'World' });
+  result = await rerpcOverHttp.invoke('/greeting/hello/', { name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.invoke('/say/hello/', { name: 'World' });
+  result = await rerpcOverSocketIO.invoke('/greeting/hello/', { name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 
-  result = await rerpcOverHttp.fn['/say/hello/']({ name: 'World' });
+  result = await rerpcOverHttp.fn['/greeting/hello/']({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over http should match result structure');
 
-  result = await rerpcOverSocketIO.fn['/say/hello/']({ name: 'World' });
+  result = await rerpcOverSocketIO.fn['/greeting/hello/']({ name: 'World' });
   t.deepEqual(result, expectedResult.$result, 'client library over socket.io should match result structure');
 });
 
