@@ -7,12 +7,14 @@ app.use(express.json());
 const http = require('http').Server(app);
 app.io = require('socket.io')(http);
 
-const PORT = 5001;
+const PORT = 5003;
 
 const ENDPOINT = `http://localhost:${PORT}`;
 const PREFIX = '/rerpc';
 
-const rerpc = require('../lib/server')({});
+const rerpc = require('../lib/server')({
+  prefix: PREFIX,
+});
 
 rerpc.attachToExpress(app);
 app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
@@ -21,11 +23,13 @@ const test = require('tape');
 
 require('isomorphic-fetch');
 const rerpcOverHttp = require('../lib/client')({
+  prefix: PREFIX,
   transport: 'http',
   transportHandler: ENDPOINT,
 });
 const socketio = require('socket.io-client')(ENDPOINT);
 const rerpcOverSocketIO = require('../lib/client')({
+  prefix: PREFIX,
   transport: 'socket.io',
   transportHandler: socketio,
 });
@@ -36,7 +40,7 @@ const ReRPCPayload = payload => ({
   body: JSON.stringify(payload),
 });
 
-test('setup basic', (t) => {
+test('setup prefixless', (t) => {
   http.listen(PORT);
   t.end();
 });

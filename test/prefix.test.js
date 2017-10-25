@@ -9,10 +9,8 @@ app.io = require('socket.io')(http);
 
 const PORT = 5002;
 
-http.listen(PORT);
-
 const ENDPOINT = `http://localhost:${PORT}`;
-const PREFIX = '';
+const PREFIX = '/rpc';
 
 const rerpc = require('../lib/server')({
   prefix: PREFIX,
@@ -40,6 +38,11 @@ const ReRPCPayload = payload => ({
   method: 'post',
   headers: new Headers({ 'Content-Type': 'application/json' }),
   body: JSON.stringify(payload),
+});
+
+test('setup prefix', (t) => {
+  http.listen(PORT);
+  t.end();
 });
 
 test('should fail to invoke missing function', async (t) => {
@@ -328,7 +331,8 @@ test('should invoke function with path name in multiple ways', async (t) => {
   t.deepEqual(result, expectedResult.$result);
 });
 
-test.onFinish(() => {
+test('teardown', (t) => {
   socketio.disconnect();
   http.close();
+  t.end();
 });
