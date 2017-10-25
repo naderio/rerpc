@@ -2,9 +2,9 @@
 reRPC
 =====
 
-`reRPC` is a simplified and flexible RPC system with unified model for client-to-server and server-to-server communication on top of HTTP and/or Socket.IO
+`reRPC` is a simplified and flexible RPC system with unified model for client-to-server and server-to-server communication on top of HTTP and/or Socket.IO.
 
-Alternatively, `reRPC` provides an unified approach to define both a HTTP path and a Socket.IO event handlers as a single async function (`async (payload) => { ... ; return result; }`).
+It provides an unified approach to define both a HTTP path and a Socket.IO event handlers as a single async function that can be invoked with a dedicated library.
 
 ## Status
 

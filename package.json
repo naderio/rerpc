@@ -1,9 +1,10 @@
 {
   "name": "rerpc",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "description": "a simplified and flexible RPC system with unified model for client-to-server and server-to-server communication on top of HTTP and/or Socket.IO",
   "keywords": [
     "RPC",
+    "RMI",
     "HTTP",
     "fetch",
     "Express",
@@ -26,20 +27,17 @@
   },
   "homepage": "https://github.com/naderio/rerpc#readme",
   "dependencies": {
-    "debug": "^3.1.0",
-    "express": "^4.16.2",
-    "socket.io": "^2.0.3",
-    "socket.io-client": "^2.0.3"
+    "debug": "^3.1.0"
   },
   "peerDependencies": {
-    "express": "^4.16.2",
-    "socket.io": "^2.0.3",
-    "socket.io-client": "^2.0.3"
+    "express": "~4.16.0",
+    "socket.io": "~2.0.0",
+    "socket.io-client": "~2.0.0"
   },
   "devDependencies": {
     "eslint": "^4.9.0",
-    "eslint-config-airbnb-base": "^12.0.2",
-    "eslint-plugin-import": "^2.7.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "isomorphic-fetch": "^2.2.1",
     "nodemon": "^1.12.1",
     "tap-spec": "^4.1.1",
