@@ -59,9 +59,11 @@ apt-get install -y build-essential python
 curl -sL https://deb.nodesource.com/setup_8.x | bash
 apt-get install -y nodejs
 
-chown -R #{VAGRANT_USERNAME}:#{VAGRANT_USERNAME} /usr
+npm install -g npm@latest
 
 npm install -g localtunnel
+
+chown -R #{VAGRANT_USERNAME}:#{VAGRANT_USERNAME} /usr
 
 SHELL
 

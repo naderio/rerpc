@@ -124,7 +124,7 @@ const rerpc = require('rerpc/client')({
 #### Using `CURL`
 
 ```bash
-curl -X POST 'http://localhost:5000/rerpc/greet' -H 'content-type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
+curl -X POST 'http://localhost:5000/rerpc/greet' -H 'Content-Type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
 ```
 
 #### Using `fetch`

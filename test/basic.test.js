@@ -30,7 +30,7 @@ const rerpcOverSocketIO = require('../lib/client')({
   transportHandler: socketio,
 });
 
-const ReRPCPayload = payload => ({
+const FetchPayload = payload => ({
   method: 'post',
   headers: new Headers({ 'Content-Type': 'application/json' }),
   body: JSON.stringify(payload),
@@ -48,7 +48,7 @@ test('should fail to invoke missing function', async (t) => {
 
   const expectedResult = { $error: { message: 'FunctionNotFound' } };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/fn404`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/fn404`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 400, 'http request should have status code 400');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match error structure');
@@ -97,7 +97,7 @@ test('should invoke function throwing an error', async (t) => {
 
   const expectedResult = { $error: { code: 'CustomError', message: 'You have a custom error!' } };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 400, 'http request should have status code 400');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match error structure');
@@ -140,7 +140,7 @@ test('should invoke function returning an object', async (t) => {
 
   const expectedResult = { $result: { message: 'Hello World!' } };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
@@ -165,7 +165,7 @@ test('should invoke function returning an array', async (t) => {
 
   const expectedResult = { $result: ['Hello World!'] };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
@@ -190,7 +190,7 @@ test('should invoke function returning a string', async (t) => {
 
   const expectedResult = { $result: 'Hello World!' };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
@@ -215,7 +215,7 @@ test('should invoke function returning a number', async (t) => {
 
   const expectedResult = { $result: 0 };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
@@ -240,7 +240,7 @@ test('should invoke function returning a boolean', async (t) => {
 
   const expectedResult = { $result: false };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
@@ -267,7 +267,7 @@ test('should invoke function returning a date', async (t) => {
 
   const expectedResult = { $result: DATE.toJSON() };
 
-  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, ReRPCPayload({ name: 'World' }));
+  const response = await fetch(`${ENDPOINT}${PREFIX}/greet`, FetchPayload({ name: 'World' }));
   t.equal(response.status, 200, 'http request should have status code 200');
   result = await response.json();
   t.deepEqual(result, expectedResult, 'http request should match result structure');
