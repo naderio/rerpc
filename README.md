@@ -21,7 +21,7 @@ It provides an unified approach to define both a HTTP path and a Socket.IO event
 
 This library is production-ready.
 
-Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more information.
+Please refer to [releases/changelog](https://github.com/naderio/rerpc/releases) and [roadmap](https://github.com/naderio/rerpc/issues/1) for more information. 
 
 ## Description
 
@@ -47,8 +47,9 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 - stay flexible:
   - enable function to access transport layer
   - enable function context augmentation
-  - enable custom payload processing
-  - enable custom error handling
+  - enable [payload processing customisation](doc/payload-processing.md)
+  - enable [error handling customisation](doc/error-handling.md)
+  - enable [prefix customisation](doc/prefix.md)
 
 ## Requirements
 
@@ -57,9 +58,9 @@ Please refer to [roadmap](https://github.com/naderio/rerpc/issues/1) for more in
 - Node v8+
 - Transpiler for browser code
 
-## Code Samples
+## Usage
 
-Please refer to [`samples` folder](./samples) for more examples.
+Refer to [`doc` folder](./doc) for more documentation.
 
 ### Server
 
@@ -94,7 +95,6 @@ app.io.on('connect', soc => rerpc.attachToSocketIO(soc));
 #### Using dedicated library
 
 ```javascript
-
 const rerpc = require('rerpc/client')({
   transport: 'http',
   transportHandler: 'http://localhost:5000',
@@ -109,36 +109,35 @@ const rerpc = require('rerpc/client')({
   transportHandler: socketio,
 });
 
-// then 
+// then
 
-(async () => {
-  try {
-    const result = await rerpc.fn.greet({ name: 'World' });
-    console.log(result); // => "Hello World!"
-  } catch(error) {
-    console.error(error);
-  }
-})();
+try {
+  const result = await rerpc.fn.greet({ name: 'World' });
+  console.log(result); // => "Hello World!"
+} catch(error) {
+  console.error(error);
+}
 ```
 
 #### Using `CURL`
 
 ```bash
-curl -X POST 'http://localhost:5000/rerpc/greet' -H 'Content-Type: application/json' -d '{"name": "World"}' # => { "$result": "Hello World!" } OR {" $error": { ... } }
+curl -X POST 'http://localhost:5000/rerpc/greet' -H 'Content-Type: application/json' -d '{"name": "World"}'
+# => { "$result": "Hello World!" } OR {" $error": { ... } }
 ```
 
 #### Using `fetch`
 
 ```javascript
-(async () => {
-  const response = await fetch('http://localhost:5000/rerpc/greet', {
-    method: 'post',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
-    body: JSON.stringify({ name: 'World' }),
-  });
-  const result = await response.json();
-  console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
-})();
+const response = await fetch('http://localhost:5000/rerpc/greet', {
+  method: 'post',
+  headers: new Headers({ 'Content-Type': 'application/json' }),
+  body: JSON.stringify({ name: 'World' }),
+});
+
+const result = await response.json();
+
+console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 ```
 
 #### Using Socket.IO
@@ -150,3 +149,7 @@ socketio.emit('/rerpc', 'greet', { name: 'World' }, (result => {
   console.log(result); // => { "$result": "Hello World!" } OR { "$error:" { ... } }
 });
 ```
+
+## Code Samples
+
+Refer to [`samples` folder](./samples) for more examples.
