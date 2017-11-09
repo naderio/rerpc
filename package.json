@@ -1,6 +1,6 @@
 {
   "name": "rerpc",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "a simplified and flexible RPC system with unified model for client-to-server and server-to-server communication on top of HTTP and/or Socket.IO",
   "keywords": [
     "RPC",
